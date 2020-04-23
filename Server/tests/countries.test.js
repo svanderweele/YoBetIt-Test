@@ -70,5 +70,17 @@ describe('Get Country Matches', () => {
 })
 
 
+describe('Get All Countries', () => {
+  it('should retrieve a list of countries', async () => {
+    const res = await request(app)
+      .get('/api/countries')
+      .expect(200)
+      .then(res => {
+        expect(res.body).toHaveProperty('message');
+        expect(res.body).toHaveProperty('success', true);
+      })
+  })
+})
+
 
 

@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 
     //Get All
     if (req.body.country_name === undefined) {
-        fetch('https://restcountries.eu/rest/v2/all')
+        axios.get('https://restcountries.eu/rest/v2/all')
             .then(response => {
                 const countryNames = response.data.map(country => country.name);
                 res.send(new Response(true, 'Countries received', { "country_names": countryNames }))
