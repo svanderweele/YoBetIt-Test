@@ -10,11 +10,12 @@ describe('Get Country', () => {
       .send({
         country_name: countryName,
       })
-      .expect(200,
-        {
-          message: countryName,
-          success: true
-        });
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toHaveProperty('success', true);
+        expect(res.body.data).toStrictEqual({ 'country_names': countryName });
+        expect(res.body).toHaveProperty('message');
+      });
   })
 })
 
@@ -27,11 +28,11 @@ describe('Get Country (not found)', () => {
         country_name: countryName,
         match: false
       })
-      .expect(404,
-        {
-          "success": false,
-          "message": "Country with that name not found."
-        });
+      .expect(404)
+      .then((res) => {
+        expect(res.body).toHaveProperty('success', false);
+        expect(res.body).toHaveProperty('message');
+      });
   })
 })
 
@@ -45,9 +46,12 @@ describe('Get Country Matches', () => {
         country_name: countryName,
         match: true
       })
-      .expect(200,
-        {
-          message: [
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toHaveProperty('success', true);
+        expect(res.body).toHaveProperty('message');
+        expect(res.body.data).toStrictEqual({
+          'country_names': [
             "United States Minor Outlying Islands",
             "Réunion",
             "Tanzania, United Republic of",
@@ -58,9 +62,10 @@ describe('Get Country Matches', () => {
             "Comoros",
             "Jordan",
             "Mexico",
-            "Myanmar"],
-          success: true
-        });
+            "Myanmar"]
+        })
+      });
+
   })
 })
 
