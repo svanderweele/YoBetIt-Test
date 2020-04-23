@@ -4,16 +4,11 @@ const axios = require('axios').default;
 const Response = require('../../Models/Response');
 
 router.get('/', (req, res) => {
-    axios.get(`https://restcountries.eu/rest/v2/name/${req.body.country_name}?fullText=true`)
+    axios.get(`https://restcountries.eu/rest/v2/name/${req.body.country_name}`)
         .then(response => {
-            if (response.data.status == 404) {
-                res.send(new Response(false, 'Country with that name not found.'));
-                return;
-            }
-
             const countries = response.data;
             const countryNames = countries.map(country => country.name);
-
+            console.log(countryNames);
             if (req.body.match === true) {
                 res.send(new Response(true, countryNames));
             } else {
@@ -22,6 +17,7 @@ router.get('/', (req, res) => {
         })
         .catch(err => {
             if (err.response.status == 404) {
+                res.status(404);
                 res.send(new Response(false, 'Country with that name not found.'));
             }
         })
