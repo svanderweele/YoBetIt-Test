@@ -74,7 +74,11 @@ router.get('/', (req, res) => {
 
     //Get by full name
     if (req.query.country_names != undefined) {
-        const queryCountryNames = req.query.country_names.split(',').filter(e => e != '');
+        const queryCountryNames = req.query.country_names
+            .split(',')
+            .filter(e => e != '')
+            .map(countryName => countryName.trim());
+        
         const url = `https://restcountries.eu/rest/v2${queryFields}}`;
         axios.get(url)
             .then(response => {
