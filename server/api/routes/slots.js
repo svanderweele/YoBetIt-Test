@@ -8,8 +8,8 @@ const uri = "mongodb+srv://Simon:OOZeoX5bXGbWR9KS@cluster0-n4iai.gcp.mongodb.net
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-router.get('/score-scheme', (req, res) => {
-    client.connect()
+router.get('/score-scheme', async (req, res) => {
+    await client.connect()
         .then(client => {
             var db = client.db('yobetit')
 
@@ -41,12 +41,26 @@ router.get('/score-scheme', (req, res) => {
             res.send(error.message);
         });
 })
+router.get('/history', async (req, res) => {
+    await client.connect()
+        .then(client => {
+            var db = client.db('yobetit')
+            db.collection('player-spins').find().toArray((err, result) => {
+                const spinResults = result;
+                db.collection('player').find().toArray((err, result) => {
+                    const player = result[0];
+                    res.send(new Response(true, 'Got player history', { history: spinResults, playerCoins: player.coins }));
+                });
+            });
+        }).catch(error => {
+            res.send(error.message);
+        });
+});
 
 
+router.get('/roll', async (req, res) => {
 
-router.get('/roll', (req, res) => {
-
-    client.connect()
+    await client.connect()
         .then(client => {
             var db = client.db('yobetit')
             db.collection('player').find().toArray((err, result) => {
@@ -81,7 +95,7 @@ router.get('/roll', (req, res) => {
                         let score = 0;
 
                         for (let typeId = 0; typeId < hits.length; typeId++) {
-                            const filteredSchemes = scoreScheme.filter(scheme => scheme.type_id == typeId && scheme.count <= hits[typeId]);
+                            const filteredSchemes = scoreScheme.filter(scheme => scheme.type_id == typeId && scheme.count == hits[typeId]);
 
                             filteredSchemes.forEach(scheme => {
                                 score += scheme.reward;
@@ -92,7 +106,7 @@ router.get('/roll', (req, res) => {
                         db.collection('player-spins').insertOne({ spins: spins.map(spin => spin.name), reward: score });
                         db.collection('player').updateOne({ '_id': player._id }, { $set: { coins: newPlayerCoins } });
 
-                        res.send({ reward: score, spins: spins.map(spin => spin.name), playerCoins: newPlayerCoins });
+                        res.send(new Response(true, 'Roll Succesful', { reward: score, spins: spins.map(spin => spin.name), playerCoins: newPlayerCoins }));
                     });
                 });
             });
@@ -101,9 +115,9 @@ router.get('/roll', (req, res) => {
         });
 })
 
-router.get('/reset', (req, res) => {
+router.get('/reset', async (req, res) => {
 
-    client.connect()
+    await client.connect()
         .then(client => {
             var db = client.db('yobetit')
             db.collection('player').find().toArray((err, result) => {
@@ -127,11 +141,6 @@ router.get('/reset', (req, res) => {
 function GetTypeFromTypeId(typeId, types) {
     return types.filter(type => type.id == typeId)[0];
 }
-
-
-router.get('/reset', (req, res) => {
-
-})
 
 
 module.exports = router;

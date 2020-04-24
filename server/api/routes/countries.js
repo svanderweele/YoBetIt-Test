@@ -37,7 +37,7 @@ const Response = require('../../../models/Response');
  *         schema:
  *           $ref: '#/components/schemas/Response'
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 
     //Filtering
     let queryFields = '?';
@@ -62,7 +62,7 @@ router.get('/', (req, res) => {
 
     //Get All
     if (req.query.country_names === undefined) {
-        axios.get(`https://restcountries.eu/rest/v2/all${queryFields}`)
+       await axios.get(`https://restcountries.eu/rest/v2/all${queryFields}`)
             .then(response => {
                 MapIdToCountries(response.data);
                 res.send(new Response(true, 'Countries received', { "countries": response.data }))
@@ -76,11 +76,11 @@ router.get('/', (req, res) => {
     if (req.query.country_names != undefined) {
         const queryCountryNames = req.query.country_names
             .split(',')
-            .filter(e => e != '')
-            .map(countryName => countryName.trim());
+            .map(countryName => countryName.trim())
+            .filter(e => e != '');
         
         const url = `https://restcountries.eu/rest/v2${queryFields}}`;
-        axios.get(url)
+        await axios.get(url)
             .then(response => {
                 const countries = FilterCountriesByName(response.data, queryCountryNames, req.query.exactMatch);
                 MapIdToCountries(countries);
