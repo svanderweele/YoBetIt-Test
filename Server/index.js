@@ -19,7 +19,7 @@ const swaggerOptions = {
         },
     },
     // Path to the API docs
-    apis: ['../Models/Response.js', './api/routes/*.js'],
+    apis: ['../models/Response.js', './api/routes/*.js'],
 };
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerOptions), { explorer: true }));
