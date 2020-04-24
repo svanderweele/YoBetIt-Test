@@ -33,7 +33,6 @@ class CountryList extends React.Component {
 
     onFilterNameChange(event) {
         this.setState({ filter: { ...this.state.filter, filterName: event.target.value } }, this.refreshList);
-        this.refreshList();
     }
 
     onFilterExactMatchChange(event) {
@@ -55,6 +54,7 @@ class CountryList extends React.Component {
 
         axios.get(`${url}&fields=name;flag;`, { method: 'GET' })
             .then((res) => {
+                console.log(res.data.data.countries);
                 this.setState({ countries: res.data.data.countries });
             })
             .catch((error) => {
@@ -72,14 +72,14 @@ class CountryList extends React.Component {
                 {/* Filter */}
                 <InputGroup className="my-3">
                     <InputGroup.Prepend>
-                        <InputGroup.Text id="basic-addon1">Filter by Name</InputGroup.Text>
+                        <InputGroup.Text id="basic-test">Filter by Name</InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
                         onChange={this.onFilterNameChange}
                         value={this.state.filter.filterName}
                         placeholder="Malta,Sweden"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
+                        aria-label="Filter Name"
+                        aria-describedby="basic-test"
                     />
 
                 </InputGroup>

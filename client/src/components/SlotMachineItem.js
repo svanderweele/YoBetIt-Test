@@ -2,18 +2,22 @@ import React from 'react';
 
 class SlotMachineItem extends React.Component {
 
+    constructor(props){
+        super(props);
+    }
 
 
     render() {
+        console.log(this.props.spin);
         return (
             <tr>
                 <td>
-                    {this.props.spin.results.map(result => {
-                        return <span>{result} </span>
+                    {this.props.spin.spins.map(spin => {
+                        return <span>{spin} </span>
                     })}
                 </td>
                 <td>
-                    100 coins
+                    {this.props.spin.reward}
                 </td>
             </tr>
 

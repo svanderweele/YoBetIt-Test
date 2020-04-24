@@ -12,7 +12,7 @@ class CountryItem extends React.Component {
 
   componentDidMount() {
     this.updateCases();
-}
+  }
 
 
 
@@ -20,7 +20,11 @@ class CountryItem extends React.Component {
     let formattedName = this.props.country.name.trim();
     axios.get(`https://api.covid19api.com/live/country/${formattedName}`, { method: 'GET' })
       .then((res) => {
-        this.setState({ numberOfCases: res.data[res.data.length-1].Active });
+        let cases = -1;
+        if (res.data != null && res.data.length != 0) {
+          cases = res.data[res.data.length - 1].Active
+        }
+        this.setState({ numberOfCases: cases });
       })
       .catch((error) => {
         console.log(error);
@@ -36,7 +40,7 @@ class CountryItem extends React.Component {
       <tr>
         <td style={tdStyle}>{this.props.country.id}</td>
         <td style={tdStyle}>{this.props.country.name}</td>
-        <td style={tdStyle}><img className="img-fluid" width="100px" src={this.props.country.flag}alt="Imagine a flag is here!"></img></td>
+        <td style={tdStyle}><img className="img-fluid" width="100px" src={this.props.country.flag} alt="Imagine a flag is here!"></img></td>
         <td style={tdStyle}>{numeral(this.state.numberOfCases).format('0,0')}</td>
       </tr>
     );
