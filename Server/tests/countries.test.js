@@ -16,10 +16,11 @@ describe('Get Country (Exact Match)', () => {
       .then((res) => {
         expect(res.body).toHaveProperty('success', true);
         expect(res.body.data).toStrictEqual({
-          "country_names": [
+          "countries": [
             {
               "flag": "https://restcountries.eu/data/mex.svg",
-              "name": "Mexico"
+              "name": "Mexico",
+              "id": 0
             }
           ]
         });
@@ -44,14 +45,16 @@ describe('Get Country Matches', () => {
         expect(res.body).toHaveProperty('success', true);
         expect(res.body).toHaveProperty('message');
         expect(res.body.data).toStrictEqual({
-          "country_names": [
+          "countries": [
             {
               "flag": "https://restcountries.eu/data/mlt.svg",
-              "name": "Malta"
+              "name": "Malta",
+              "id": 0
             },
             {
               "flag": "https://restcountries.eu/data/swe.svg",
-              "name": "Sweden"
+              "name": "Sweden",
+              "id": 1
             }
           ]
         })
@@ -92,110 +95,136 @@ describe('Get Countries (not exact match)', () => {
         expect(res.body).toHaveProperty('message');
 
         expect(res.body.data).toStrictEqual({
-          "country_names": [
+          "countries": [
             {
               "flag": "https://restcountries.eu/data/khm.svg",
-              "name": "Cambodia"
+              "name": "Cambodia",
+              "id": 0
             },
             {
               "flag": "https://restcountries.eu/data/cmr.svg",
-              "name": "Cameroon"
+              "name": "Cameroon",
+              "id": 1
             },
             {
               "flag": "https://restcountries.eu/data/can.svg",
-              "name": "Canada"
+              "name": "Canada",
+              "id": 2
             },
             {
               "flag": "https://restcountries.eu/data/cpv.svg",
-              "name": "Cabo Verde"
+              "name": "Cabo Verde",
+              "id": 3
             },
             {
               "flag": "https://restcountries.eu/data/cym.svg",
-              "name": "Cayman Islands"
+              "name": "Cayman Islands",
+              "id": 4
             },
             {
               "flag": "https://restcountries.eu/data/caf.svg",
-              "name": "Central African Republic"
+              "name": "Central African Republic",
+              "id": 5
             },
             {
               "flag": "https://restcountries.eu/data/tcd.svg",
-              "name": "Chad"
+              "name": "Chad",
+              "id": 6
             },
             {
               "flag": "https://restcountries.eu/data/chl.svg",
-              "name": "Chile"
+              "name": "Chile",
+              "id": 7
             },
             {
               "flag": "https://restcountries.eu/data/chn.svg",
-              "name": "China"
+              "name": "China",
+              "id": 8
             },
             {
               "flag": "https://restcountries.eu/data/cxr.svg",
-              "name": "Christmas Island"
+              "name": "Christmas Island",
+              "id": 9
             },
             {
               "flag": "https://restcountries.eu/data/cck.svg",
-              "name": "Cocos (Keeling) Islands"
+              "name": "Cocos (Keeling) Islands",
+              "id": 10
             },
             {
               "flag": "https://restcountries.eu/data/col.svg",
-              "name": "Colombia"
+              "name": "Colombia",
+              "id": 11
             },
             {
               "flag": "https://restcountries.eu/data/com.svg",
-              "name": "Comoros"
+              "name": "Comoros",
+              "id": 12
             },
             {
               "flag": "https://restcountries.eu/data/cog.svg",
-              "name": "Congo"
+              "name": "Congo",
+              "id": 13
             },
             {
               "flag": "https://restcountries.eu/data/cod.svg",
-              "name": "Congo (Democratic Republic of the)"
+              "name": "Congo (Democratic Republic of the)",
+              "id": 14
             },
             {
               "flag": "https://restcountries.eu/data/cok.svg",
-              "name": "Cook Islands"
+              "name": "Cook Islands",
+              "id": 15
             },
             {
               "flag": "https://restcountries.eu/data/cri.svg",
-              "name": "Costa Rica"
+              "name": "Costa Rica",
+              "id": 16
             },
             {
               "flag": "https://restcountries.eu/data/hrv.svg",
-              "name": "Croatia"
+              "name": "Croatia",
+              "id": 17
             },
             {
               "flag": "https://restcountries.eu/data/cub.svg",
-              "name": "Cuba"
+              "name": "Cuba",
+              "id": 18
             },
             {
               "flag": "https://restcountries.eu/data/cuw.svg",
-              "name": "Curaçao"
+              "name": "Curaçao",
+              "id": 19
             },
             {
               "flag": "https://restcountries.eu/data/cyp.svg",
-              "name": "Cyprus"
+              "name": "Cyprus",
+              "id": 20
             },
             {
               "flag": "https://restcountries.eu/data/cze.svg",
-              "name": "Czech Republic"
+              "name": "Czech Republic",
+              "id": 21
             },
             {
               "flag": "https://restcountries.eu/data/civ.svg",
-              "name": "Côte d'Ivoire"
+              "name": "Côte d'Ivoire",
+              "id": 22
             },
             {
               "flag": "https://restcountries.eu/data/ncl.svg",
-              "name": "New Caledonia"
+              "name": "New Caledonia",
+              "id": 23
             },
             {
               "flag": "https://restcountries.eu/data/shn.svg",
-              "name": "Saint Helena, Ascension and Tristan da Cunha"
+              "name": "Saint Helena, Ascension and Tristan da Cunha",
+              "id": 24
             },
             {
               "flag": "https://restcountries.eu/data/tca.svg",
-              "name": "Turks and Caicos Islands"
+              "name": "Turks and Caicos Islands",
+              "id": 25
             }
           ]
         })

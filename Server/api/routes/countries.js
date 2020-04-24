@@ -52,12 +52,20 @@ router.get('/', (req, res) => {
         }
     }
 
+    function MapIdToCountries(countries) {
+        let count = 0;
+        countries.map(country => {
+            country.id = count++;
+            return country;
+        });
+    }
+
     //Get All
     if (req.query.country_names === undefined) {
         axios.get(`https://restcountries.eu/rest/v2/all${queryFields}`)
             .then(response => {
-                const countryData = response.data.map(country => country);
-                res.send(new Response(true, 'Countries received', { "country": countryData }))
+                MapIdToCountries(response.data);
+                res.send(new Response(true, 'Countries received', { "countries": response.data }))
             })
             .catch(error => {
                 throw error;
@@ -66,30 +74,13 @@ router.get('/', (req, res) => {
 
     //Get by full name
     if (req.query.country_names != undefined) {
-        // let url = `https://restcountries.eu/rest/v2/name/${req.query.country_name}${queryFields}`;
-        // console.log(url);
-        // axios.get(url)
-        //     .then(response => {
-        //         const countryData = response.data;
-        //         res.send(new Response(true, 'Country found', { 'country': countryData }));
-        //     })
-        //     .catch(err => {
-        //         if (err.response.status == 404) {
-        //             res.status(404);
-        //             res.send(new Response(false, 'Country with that name not found.', { error: err.message }));
-        //         }
-        //     })
-
-
-        const queryCountryNames = req.query.country_names.split(',');
-
-
+        const queryCountryNames = req.query.country_names.split(',').filter(e => e != '');
         const url = `https://restcountries.eu/rest/v2${queryFields}}`;
         axios.get(url)
             .then(response => {
-                const countries = response.data;
-                const filteredCountries = FilterCountriesByName(countries, queryCountryNames, req.query.exactMatch);
-                res.send(new Response(true, 'Countries found', { 'country_names': filteredCountries }));
+                const countries = FilterCountriesByName(response.data, queryCountryNames, req.query.exactMatch);
+                MapIdToCountries(countries);
+                res.send(new Response(true, 'Countries found', { 'countries': countries }));
             })
             .catch(err => {
                 if (err.response && err.response.status == 404) {
@@ -99,14 +90,6 @@ router.get('/', (req, res) => {
                 res.send(new Response(false, 'Internal error occured', { error: err.message, url }));
             });
     }
-
-    //Get by array of names
-    if (req.query.country_names) {
-
-
-    }
-
-
 });
 
 
