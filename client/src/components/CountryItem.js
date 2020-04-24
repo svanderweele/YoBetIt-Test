@@ -1,24 +1,46 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import numeral from 'numeral';
+import axios from 'axios';
 
 class CountryItem extends React.Component {
 
-    render(){
-        return (
-            <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-        )
+  constructor(props) {
+    super(props);
+    this.state = { numberOfCases: 0 };
+    this.updateCases = this.updateCases.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateCases();
+}
+
+
+
+  updateCases() {
+    let formattedName = this.props.country.name.trim();
+    axios.get(`https://api.covid19api.com/live/country/${formattedName}`, { method: 'GET' })
+      .then((res) => {
+        this.setState({ numberOfCases: res.data[res.data.length-1].Active });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  render() {
+    const tdStyle = {
+      verticalAlign: 'middle'
     }
+
+    return (
+      <tr>
+        <td style={tdStyle}>{this.props.country.id}</td>
+        <td style={tdStyle}>{this.props.country.name}</td>
+        <td style={tdStyle}><img className="img-fluid" width="100px" src={this.props.country.flag}></img></td>
+        <td style={tdStyle}>{numeral(this.state.numberOfCases).format('0,0')}</td>
+      </tr>
+    );
+  }
 }
 
 export default CountryItem;
