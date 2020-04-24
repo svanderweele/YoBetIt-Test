@@ -13,24 +13,24 @@ const Response = require('../../../models/Response');
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: country_name
- *         description: The name of the country to search for.
- *         in: query
- *         required: false
- *         type: string
- *         default: Uni
  *       - name: country_names
  *         description: The names of the country to search for.
  *         in: query
  *         required: false
  *         type: string
- *         default: Uni
- *       - name: match
+ *         default: Malta, Swe
+ *       - name: exactMatch
  *         description: Should it try to match part of the country name?
  *         in: query
  *         required: false
  *         type: boolean
- *         default: false
+ *         default: true
+ *       - name: fields
+ *         description: Fields used for filtering result from REST Countries api
+ *         in: query
+ *         required: false
+ *         type: string
+ *         default: name,flag
  *     responses:
  *       200:
  *         description: A successful response.
