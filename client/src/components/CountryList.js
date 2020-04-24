@@ -6,6 +6,8 @@ import Table from 'react-bootstrap/Table';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
+import Swal from 'sweetalert2'
+
 
 class CountryList extends React.Component {
 
@@ -66,7 +68,7 @@ class CountryList extends React.Component {
 
         return (
             <div className="container">
-
+                <h1>Country List</h1>
                 {/* Filter */}
                 <InputGroup className="my-3">
                     <InputGroup.Prepend>
