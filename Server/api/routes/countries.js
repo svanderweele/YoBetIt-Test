@@ -1,12 +1,40 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios').default;
-const Response = require('../../Models/Response');
+const Response = require.main.require('../Models/Response');
 
+
+/**
+ * @swagger
+ * /api/countries:
+ *   get:
+ *     tags: ['Countries']
+ *     description: Get Countries
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: country_name
+ *         description: The name of the country to search for.
+ *         in: query
+ *         required: false
+ *         type: string
+ *         default: Uni
+ *       - name: match
+ *         description: Should it try to match part of the country name?
+ *         in: query
+ *         required: false
+ *         type: boolean
+ *         default: false
+ *     responses:
+ *       200:
+ *         description: A successful response.
+ *         schema:
+ *           $ref: '#/components/schemas/Response'
+ */
 router.get('/', (req, res) => {
 
     //Get All
-    if (req.body.country_name === undefined) {
+    if (req.query.country_name === undefined) {
         axios.get('https://restcountries.eu/rest/v2/all')
             .then(response => {
                 const countryNames = response.data.map(country => country.name);
@@ -18,13 +46,12 @@ router.get('/', (req, res) => {
     }
 
     //Get by name
-    if (req.body.country_name) {
-        axios.get(`https://restcountries.eu/rest/v2/name/${req.body.country_name}`)
+    if (req.query.country_name) {
+        axios.get(`https://restcountries.eu/rest/v2/name/${req.query.country_name}`)
             .then(response => {
                 const countries = response.data;
                 const countryNames = countries.map(country => country.name);
-                console.log(countryNames);
-                if (req.body.match === true) {
+                if (req.query.match === 'true') {
                     res.send(new Response(true, 'Countries found', { 'country_names': countryNames }));
                 } else {
                     res.send(new Response(true, 'Country found', { 'country_names': countryNames[0] }));
