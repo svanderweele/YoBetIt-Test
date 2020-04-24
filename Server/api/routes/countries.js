@@ -19,6 +19,12 @@ const Response = require.main.require('../Models/Response');
  *         required: false
  *         type: string
  *         default: Uni
+ *       - name: country_names
+ *         description: The names of the country to search for.
+ *         in: query
+ *         required: false
+ *         type: string
+ *         default: Uni
  *       - name: match
  *         description: Should it try to match part of the country name?
  *         in: query
@@ -45,17 +51,13 @@ router.get('/', (req, res) => {
             })
     }
 
-    //Get by name
-    if (req.query.country_name) {
-        axios.get(`https://restcountries.eu/rest/v2/name/${req.query.country_name}`)
+    //Get by full name
+    if (req.query.country_name != undefined) {
+        axios.get(`https://restcountries.eu/rest/v2/name/${req.query.country_name}?fullText=true&fields=name`)
             .then(response => {
                 const countries = response.data;
                 const countryNames = countries.map(country => country.name);
-                if (req.query.match === 'true') {
-                    res.send(new Response(true, 'Countries found', { 'country_names': countryNames }));
-                } else {
-                    res.send(new Response(true, 'Country found', { 'country_names': countryNames[0] }));
-                }
+                res.send(new Response(true, 'Country found', { 'country_names': countryNames[0] }));
             })
             .catch(err => {
                 if (err.response.status == 404) {
@@ -65,7 +67,31 @@ router.get('/', (req, res) => {
             })
     }
 
+    //Get by array of names
+    if (req.query.country_names) {
 
+        const queryCountryNames = req.query.country_names.split(',');
+        const matchingCountries = [];
+        axios.get(`https://restcountries.eu/rest/v2?fields=name`)
+            .then(response => {
+                const countries = response.data;
+                const countryNames = countries.map(country => country.name);
+                countryNames.forEach(name => {
+                    queryCountryNames.forEach(queryName => {
+                        if (name.indexOf(queryName) > -1) {
+                            matchingCountries.push(name);
+                        }
+                    });
+                });
+                res.send(new Response(true, 'Countries found', { 'country_names': matchingCountries }));
+            })
+            .catch(err => {
+                if (err.response.status == 404) {
+                    res.status(404);
+                    res.send(new Response(false, 'Country with that name not found.', { error: err.message }));
+                }
+            })
+    }
 
 
 });
