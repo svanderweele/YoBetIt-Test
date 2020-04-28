@@ -21,6 +21,8 @@ class SlotsController {
   public intializeRoutes() {
     this.router.get(this.path + "/roll", this.roll);
     this.router.get(this.path + "/score-sheet", this.getScoreSheet);
+    this.router.get(this.path + "/spin-history", this.getHistory);
+    this.router.get(this.path + "/reset", this.resetSlots);
   }
 
   roll = async (request: Request, response: Response) => {
@@ -30,12 +32,38 @@ class SlotsController {
         response.send(new ServerResponse(true, "Spin succesful!", spinResult));
       })
       .catch((error) => {
-        logger.error(error);
         response.send(
-          new ServerResponse(true, "Something went wrong!", { error: error })
+          new ServerResponse(false, "Something went wrong!", { error })
         );
       });
   };
+
+  getHistory = (request: Request, response: Response) => {
+    slotService
+      .getHistory()
+      .then((spins) => {
+        response.send(new ServerResponse(true, "Got history!", spins));
+      })
+      .catch((error) => {
+        response.send(
+          new ServerResponse(false, "Something went wrong!", { error })
+        );
+      });
+  };
+
+  resetSlots = (request: Request, response: Response) => {
+    slotService
+      .resetSlots()
+      .then(() => {
+        response.send(new ServerResponse(true, "Reset slots!"));
+      })
+      .catch((error) => {
+        response.send(
+          new ServerResponse(false, "Something went wrong!", { error })
+        );
+      });
+  };
+
   getScoreSheet = async (request: Request, response: Response) => {
     slotService
       .getScoreSheet()
@@ -46,7 +74,7 @@ class SlotsController {
       })
       .catch((error) => {
         response.send(
-          new ServerResponse(true, "Something went wrong!", { error: error })
+          new ServerResponse(false, "Something went wrong!", { error })
         );
       });
   };

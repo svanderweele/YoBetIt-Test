@@ -6,6 +6,9 @@ import {
   SlotMachinePatternTypeEnum,
 } from "../../../client/src/models/SlotMachine";
 import { logger } from "../../src/utilities/winston";
+import { response } from "express";
+import ServerResponse from "../../../client/src/models/ServerResponse";
+import moment from "moment";
 
 class SlotService {
   static spin = (): Promise<SlotMachineSpin> => {
@@ -85,14 +88,15 @@ class SlotService {
               }
             });
 
-            const reward = mostValuablePattern?.reward;
-
+            const reward: number = mostValuablePattern
+              ? mostValuablePattern.reward
+              : 0;
             Database.query("select * from spin_types").then(
               (rows: SlotMachinePatternType[]) => {
                 const types = SlotService.getTypesFromId(rollResults, rows);
                 const rollResultString: string = types
                   .map((type: SlotMachinePatternType) => type.name)
-                  .join(",");
+                  .join(", ");
 
                 const spin = new SlotMachineSpin(
                   new Date(),
@@ -101,7 +105,15 @@ class SlotService {
                   reward
                 );
 
-                resolve(spin);
+                Database.query(
+                  `INSERT INTO spins (date, result, user_id, reward) VALUES("${moment(
+                    spin.date
+                  ).format("YYYY/MM/DD HH:mm:ss")}", "${spin.result}", "${
+                    spin.userId
+                  }", "${spin.reward}")`
+                ).then((rows: any) => {
+                  resolve(spin);
+                });
               }
             );
           }
@@ -109,6 +121,28 @@ class SlotService {
       } catch (error) {
         reject(error);
       }
+    });
+  };
+
+  static resetSlots = (): Promise<any> => {
+    return new Promise((resolve, reject) => {
+      try {
+        Database.query(`UPDATE users set money=20`).then(() => {
+          return Database.query(`DELETE from spins`).then(resolve);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  static getHistory = (): Promise<SlotMachineSpin[]> => {
+    return new Promise((resolve, reject) => {
+      Database.query("select * from spins")
+        .then((spins: SlotMachineSpin[]) => {
+          resolve(spins);
+        })
+        .catch((error) => reject(error));
     });
   };
 
