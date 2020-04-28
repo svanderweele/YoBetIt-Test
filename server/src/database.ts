@@ -6,21 +6,23 @@ const connection = mysql.createConnection({
   port: 8889,
   password: "root",
   database: "YoBetIt",
+  multipleStatements: true,
 });
 
 class Database {
-  static query = (query: string, callback: (rows? :any, fields?: FieldInfo[]) => void) => {
-    connection.query(
-      query,
-      (error: MysqlError, results?: any, fields?: FieldInfo[]) => {
-        if (error) {
-          logger.error(error);
-          return;
+  static query = (query: string) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        query,
+        (error: MysqlError, results?: any, fields?: FieldInfo[]) => {
+          if (error) {
+            logger.error(error);
+            return;
+          }
+          resolve(results);
         }
-        callback(results, fields);
-        connection.end();
-      }
-    );
+      );
+    });
   };
 }
 

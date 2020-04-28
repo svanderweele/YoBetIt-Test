@@ -30,11 +30,9 @@ class SlotMachineSpin {
 class SlotMachinePatternType {
   id: number;
   name: string;
-  type: SlotMachinePatternTypeEnum;
-  constructor(id: number, name: string, type: SlotMachinePatternTypeEnum) {
+  constructor(id: number, name: string) {
     this.id = id;
     this.name = name;
-    this.type = type;
   }
 }
 
