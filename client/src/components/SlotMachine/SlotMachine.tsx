@@ -10,11 +10,12 @@ import SlotMachineScoreSheet from "./SlotMachineScoreSheet";
 import { User } from "../../models/User";
 import toastr from "toastr";
 import Swal, { SweetAlertResult } from "sweetalert2";
+import ServerResponse from "../../models/ServerResponse";
 
 const SlotMachine = () => {
   const [spinHistory, setSpinHistory] = React.useState<SlotMachineSpin[]>([
-    new SlotMachineSpin(1, new Date(), "apple apple banana", 1, 20),
-    new SlotMachineSpin(2, new Date(), "cherry cherry cherry", 1, 50),
+    new SlotMachineSpin(new Date(), "apple apple banana", 1, 20),
+    new SlotMachineSpin(new Date(), "cherry cherry cherry", 1, 50),
   ]);
 
   const [isScoreSheetShown, setScoreSheetShown] = React.useState(false);
@@ -26,35 +27,68 @@ const SlotMachine = () => {
 
   const [rewardRequirements, setRewardRequirements] = React.useState<
     SlotMachineRewardRequirement[]
-  >([
-    new SlotMachineRewardRequirement(
-      0,
-      [SlotMachinePatternTypeEnum.Apple, SlotMachinePatternTypeEnum.Apple],
-      20
-    ),
-    new SlotMachineRewardRequirement(
-      1,
-      [SlotMachinePatternTypeEnum.Cherry, SlotMachinePatternTypeEnum.Cherry],
-      50
-    ),
-  ]);
+  >([]);
 
   const spin = () => {
-    if (userData.money <= 0) {
-      toastr.warning("You are out of money! Consider resetting.");
-    }
-    toastr.info("Spinning...");
+    fetch(process.env.REACT_APP_HOST + "/api/slots/roll")
+      .then((res) => res.json())
+      .then((res: ServerResponse) => {
+        if (res.success == false) {
+          toastr.error(res.data.error);
+        } else {
+          let spin: SlotMachineSpin = res.data;
+          if (spin.reward > 0) {
+            toastr.success(`Won ${spin.reward.toString()}!`);
+          } else {
+            toastr.info(`No winnings`);
+          }
+        }
+
+        getSpinHistory();
+        getUserData();
+      });
   };
+
+  const getUserData = () => {
+    fetch(process.env.REACT_APP_HOST + "/api/users/")
+      .then((res) => res.json())
+      .then((res: ServerResponse) => {
+        setUserData(res.data[0]);
+      });
+  };
+
+  const getSpinHistory = () => {
+    fetch(process.env.REACT_APP_HOST + "/api/slots/spin-history")
+      .then((res) => res.json())
+      .then((res: ServerResponse) => {
+        setSpinHistory(res.data);
+      });
+  };
+
+  React.useEffect(() => {
+    getSpinHistory();
+    getUserData();
+  }, []);
 
   const reset = () => {
     Swal.fire({
       title: "Are you sure you want to reset?",
       text: "This will reset your history and money.",
       showCancelButton: true,
-      background: 'danger'
+      background: "danger",
     }).then((result: SweetAlertResult) => {
       if (result.value) {
-        toastr.success("Reset successful", "Successfully reset slots!");
+        fetch(`${process.env.REACT_APP_HOST}/api/slots/reset`)
+          .then((res) => res.json())
+          .then((res: ServerResponse) => {
+            if (res.success) {
+              toastr.success("Reset successful", "Successfully reset slots!");
+              getSpinHistory();
+              getUserData();
+            } else {
+              toastr.success("Reset error", res.data.error);
+            }
+          });
       }
     });
   };

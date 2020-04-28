@@ -26,7 +26,7 @@ const SlotMachineHistory = (props: SlotMachineHistoryProps) => {
                 <tr key={spin.id}>
                   <td>{spin.result}</td>
                   <td>{spin.reward}</td>
-                  <td>{moment(spin.date).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                  <td>{moment(spin.date).format('MMMM Do YYYY, HH:mm:ss')}</td>
                 </tr>
               );
             })}
