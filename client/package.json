@@ -8,12 +8,21 @@
     "@testing-library/user-event": "^7.2.1",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.37",
+    "@types/numeral": "0.0.27",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
+    "@types/toastr": "^2.1.37",
+    "bootstrap": "^4.4.1",
+    "moment": "^2.24.0",
+    "numeral": "^2.0.6",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "typescript": "^3.7.5"
+    "sweetalert2": "^9.10.12",
+    "toastr": "^2.1.4",
+    "typescript": "^3.7.5",
+    "winston": "^3.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
