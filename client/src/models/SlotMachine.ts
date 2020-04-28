@@ -6,20 +6,18 @@ enum SlotMachinePatternTypeEnum {
 }
 
 class SlotMachineSpin {
-  id: number;
+  id?: number;
   date: Date;
   result: string;
   userId: number;
   reward: number;
 
   constructor(
-    id: number,
     date: Date,
     result: string,
     userId: number,
     reward: number
   ) {
-    this.id = id;
     this.date = date;
     this.result = result;
     this.userId = userId;
