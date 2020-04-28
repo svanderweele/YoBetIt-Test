@@ -3,6 +3,7 @@ import { Card, Table } from "react-bootstrap";
 import { Country } from "../../models/Country";
 import CountryListFilter from "./CountryListFilter";
 import CountryListItem from "./CountryListItem";
+import MyServerResponse from "../../models/ServerResponse";
 
 interface FilterState {
   filterName?: string;
@@ -19,7 +20,12 @@ const CountryList = () => {
   React.useEffect(() => {
     setCountries([
       new Country(1, "https://restcountries.eu/data/mlt.svg", "Malta", 523),
-      new Country(2, "https://restcountries.eu/data/swe.svg", "Scotland", 23512),
+      new Country(
+        2,
+        "https://restcountries.eu/data/swe.svg",
+        "Scotland",
+        23512
+      ),
     ]);
   }, []);
 
@@ -41,8 +47,11 @@ const CountryList = () => {
       .join("");
 
     fetch(`${process.env.REACT_APP_HOST}/api/countries?${query}`)
-      .then((response) => response.json())
-      .then((data) => console.log("info", data));
+      .then((res) => res.json())
+      .then((response: MyServerResponse) => {
+        let countries = response.data.countries as Country[];
+        setCountries(countries);
+      });
   };
 
   React.useEffect(() => {
