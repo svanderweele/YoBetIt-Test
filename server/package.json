@@ -1,0 +1,35 @@
+{
+  "name": "yobetitproject",
+  "version": "1.0.0",
+  "description": "An api for YoBetIt",
+  "main": "dist/app.js",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svanderweele/YoBetIt-Test.git"
+  },
+  "author": "Simon van der Weele",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/svanderweele/YoBetIt-Test/issues"
+  },
+  "homepage": "https://github.com/svanderweele/YoBetIt-Test#readme",
+  "dependencies": {
+    "@types/cors": "^2.8.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/node": "^13.13.4",
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3"
+  }
+}
