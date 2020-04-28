@@ -4,7 +4,6 @@ import SlotMachineHistory from "./SlotMachineHistory";
 import {
   SlotMachineSpin,
   SlotMachineRewardRequirement,
-  SlotMachinePatternTypeEnum,
 } from "../../models/SlotMachine";
 import SlotMachineScoreSheet from "./SlotMachineScoreSheet";
 import { User } from "../../models/User";
@@ -49,6 +48,14 @@ const SlotMachine = () => {
       });
   };
 
+  const getRewardRequirements = () => {
+    fetch(process.env.REACT_APP_HOST + "/api/slots/score-sheet")
+      .then((res) => res.json())
+      .then((res: ServerResponse) => {
+        setRewardRequirements(res.data);
+      });
+  };
+
   const getUserData = () => {
     fetch(process.env.REACT_APP_HOST + "/api/users/")
       .then((res) => res.json())
@@ -68,6 +75,7 @@ const SlotMachine = () => {
   React.useEffect(() => {
     getSpinHistory();
     getUserData();
+    getRewardRequirements();
   }, []);
 
   const reset = () => {
