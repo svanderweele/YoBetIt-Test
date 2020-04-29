@@ -40,7 +40,7 @@ class SlotService {
                   [4, 1, 4, 1, 3, 4, 2, 4],
                 ];
 
-                let rollResults: SlotMachinePatternTypeEnum[] = [];
+                const rollResults: SlotMachinePatternTypeEnum[] = [];
                 for (let i = 0; i < 3; i++) {
                   rollResults[i] =
                     reelOptions[i][
@@ -48,14 +48,14 @@ class SlotService {
                     ];
                 }
 
-                let matchedPatterns: SlotMachineRewardRequirement[] = [];
-                //Check for matches
+                const matchedPatterns: SlotMachineRewardRequirement[] = [];
+                // Check for matches
                 for (
                   let requirementIndex = 0;
                   requirementIndex < requirements.length;
                   requirementIndex++
                 ) {
-                  let requirementPattern: SlotMachinePatternTypeEnum[] = requirements[
+                  const requirementPattern: SlotMachinePatternTypeEnum[] = requirements[
                     requirementIndex
                   ].pattern.slice();
                   for (
@@ -168,7 +168,7 @@ class SlotService {
       try {
         Database.query("SELECT * from reward_requirements").then(
           (rows: any) => {
-            let requirements: SlotMachineRewardRequirement[] = rows.map(
+            const requirements: SlotMachineRewardRequirement[] = rows.map(
               (row: any) => {
                 return new SlotMachineRewardRequirement(
                   row.pattern.split(","),
@@ -208,7 +208,7 @@ class SlotService {
     typeIds: number[],
     types: SlotMachinePatternType[]
   ): SlotMachinePatternType[] => {
-    let returnedTpyes: SlotMachinePatternType[] = [];
+    const returnedTpyes: SlotMachinePatternType[] = [];
     for (let i = 0; i < typeIds.length; i++) {
       returnedTpyes[i] = types.filter((type: SlotMachinePatternType) => {
         return type.id == typeIds[i];

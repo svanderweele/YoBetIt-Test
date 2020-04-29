@@ -2,8 +2,8 @@ import ServerResponse from "../../../client/src/models/ServerResponse";
 import { Country } from "../../../client/src/models/Country";
 
 import request from "supertest";
-import app from "../server";
 import supertest from "supertest";
+import {app} from '../app';
 
 const callerApp = app.app;
 
@@ -32,7 +32,7 @@ describe("Get Country Matches", () => {
     await request(callerApp)
       .get("/api/countries")
       .query({
-        countryNames: countryNames,
+        countryNames,
         isExactNameMatch: false,
         fields: "name,flag",
       })

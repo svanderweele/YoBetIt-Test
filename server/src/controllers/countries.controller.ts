@@ -19,9 +19,9 @@ class CountriesController {
   }
 
   getAllCountries = async (request: Request, response: Response) => {
-    let query: GetAllCountriesQuery = <GetAllCountriesQuery>(
-      (<any>request.query)
-    );
+    const query: GetAllCountriesQuery = (
+      (request.query as any)
+    ) as GetAllCountriesQuery;
     countryService
       .getAllCountries(query)
       .then((countries: Country[]) => {

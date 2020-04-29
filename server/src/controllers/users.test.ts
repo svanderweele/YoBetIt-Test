@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../server";
+import {app} from "../app";
 import supertest from "supertest";
 import { User } from "../../../client/src/models/User";
 
@@ -18,4 +18,3 @@ describe("Get User", () => {
   });
 });
 
-  

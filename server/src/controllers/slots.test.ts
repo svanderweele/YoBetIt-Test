@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../server";
+import {app} from "../app";
 import supertest from "supertest";
 import { SlotMachineSpin, SlotMachineRewardRequirement } from "../../../client/src/models/SlotMachine";
 
@@ -56,4 +56,3 @@ describe("Reward Requirements", () => {
         });
     });
   });
-  

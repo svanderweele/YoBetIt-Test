@@ -4,6 +4,8 @@
   "description": "An api for YoBetIt",
   "main": "dist/server/src/app.js",
   "scripts": {
+    "build": "tsc",
+    "prestart": "npm run build",
     "start": "node .",
     "test": "jest",
     "dev": "ts-node ./src/server.ts"
