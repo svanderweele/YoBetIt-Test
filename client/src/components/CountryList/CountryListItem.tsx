@@ -18,7 +18,6 @@ const CountryListItem = (props: CountryListItemProps) => {
       <td style={tdStyle}>
         <img className='img-fluid' width='100px' src={props.country.flag} alt="Imagine a flag was here" />
       </td>
-      <td style={tdStyle}>{numeral(props.country.activeCoronaCases).format('0,0')}</td>
     </tr>
   );
 };

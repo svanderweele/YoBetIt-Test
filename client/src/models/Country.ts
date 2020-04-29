@@ -2,17 +2,14 @@ export class Country {
   id: number;
   flag: string;
   name: string;
-  activeCoronaCases: number;
   constructor(
     id: number,
     flag: string,
-    name: string,
-    activeCoronaCases: number
+    name: string
   ) {
     this.id = id;
     this.flag = flag;
     this.name = name;
-    this.activeCoronaCases = activeCoronaCases;
   }
 }
 

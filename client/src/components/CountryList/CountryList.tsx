@@ -30,38 +30,7 @@ const CountryList = (props: Props) => {
     isExactNameMatch: false,
   });
 
-  React.useEffect(() => {
-    // setCountries([
-    //   new Country(1, "https://restcountries.eu/data/mlt.svg", "Malta", 523),
-    //   new Country(
-    //     2,
-    //     "https://restcountries.eu/data/swe.svg",
-    //     "Scotland",
-    //     23512
-    //   ),
-    // ]);
-  }, []);
-
   const getCountries = () => {
-    // let queries: string[] = [];
-    // if (filterState.filterName != undefined) {
-    //   queries.push(`countryNames=${filterState.filterName}`);
-    // }
-    // if (filterState.isExactNameMatch == true) {
-    //   queries.push(`isExactNameMatch=true`);
-    // }
-    // const query = queries
-    //   .map((query: string, index: number) =>
-    //     index == 0 ? `${query}` : `&${query}`
-    //   )
-    //   .join("");
-    // fetch(`${process.env.REACT_APP_HOST}/api/countries?${query}`)
-    //   .then((res) => res.json())
-    //   .then((response: ServerResponse) => {
-    //     let countries = response.data.countries as Country[];
-    //     setCountries(countries);
-    //   });
-
     props.startGetCountries({
       countryNames: filterState.filterName,
       isExactNameMatch: filterState.isExactNameMatch.toString(),
@@ -94,7 +63,6 @@ const CountryList = (props: Props) => {
               <th>Id</th>
               <th>Name</th>
               <th>Flag</th>
-              <th>Active Corona Cases</th>
             </tr>
           </thead>
           <tbody>
