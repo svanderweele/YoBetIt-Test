@@ -5,9 +5,6 @@ import {
   SlotMachineSpin,
   SlotMachinePatternTypeEnum,
 } from "../../../client/src/models/SlotMachine";
-import { logger } from "../../src/utilities/winston";
-import { response } from "express";
-import ServerResponse from "../../../client/src/models/ServerResponse";
 import moment from "moment";
 import { User } from "../../../client/src/models/User";
 
@@ -30,9 +27,9 @@ class SlotService {
                 const requirements: SlotMachineRewardRequirement[] = rows.map(
                   (row: any) => {
                     return new SlotMachineRewardRequirement(
-                      row.id,
                       row.pattern.split(","),
-                      row.reward
+                      row.reward,
+                      row.id,
                     );
                   }
                 );
@@ -174,9 +171,9 @@ class SlotService {
             let requirements: SlotMachineRewardRequirement[] = rows.map(
               (row: any) => {
                 return new SlotMachineRewardRequirement(
-                  row.id,
                   row.pattern.split(","),
-                  row.reward
+                  row.reward,
+                  row.id
                 );
               }
             );

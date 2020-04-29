@@ -1,14 +1,10 @@
 import express, { Request, Response } from "express";
 import ServerResponse from "../../../client/src/models/ServerResponse";
-import { Country } from "../../../client/src/models/Country";
+import { Country, GetAllCountriesQuery } from "../../../client/src/models/Country";
 import { logger } from "../../src/utilities/winston";
 import countryService from "./countries.service";
 
-export interface GetAllCountriesQuery {
-  countryNames?: string;
-  fields?: string;
-  isExactNameMatch?: string;
-}
+
 
 class CountriesController {
   public path = "/api/countries";
