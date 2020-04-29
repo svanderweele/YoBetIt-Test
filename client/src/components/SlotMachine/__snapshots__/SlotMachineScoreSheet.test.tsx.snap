@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slot Machine Score Sheet should render correctly 1`] = `
+<Card
+  body={false}
+>
+  <CardBody>
+    <CardTitle>
+      Slot Machine Score Sheet
+    </CardTitle>
+    <ForwardRef
+      bordered={true}
+    >
+      <thead>
+        <tr>
+          <th>
+            Id
+          </th>
+          <th>
+            Pattern
+          </th>
+          <th>
+            Reward
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          key="0"
+        >
+          <td>
+            0
+          </td>
+          <td />
+          <td>
+            20
+          </td>
+        </tr>
+      </tbody>
+    </ForwardRef>
+  </CardBody>
+</Card>
+`;

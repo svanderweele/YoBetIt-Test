@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slot Machine History should render correctly 1`] = `
+<Card
+  body={false}
+>
+  <CardBody>
+    <CardTitle>
+      Slot Machine History
+    </CardTitle>
+    <ForwardRef
+      bordered={true}
+    >
+      <thead>
+        <tr>
+          <th>
+            Result
+          </th>
+          <th>
+            Reward
+          </th>
+          <th>
+            Date
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          key="0"
+        >
+          <td>
+            Apple, Apple, Apple
+          </td>
+          <td>
+            20
+          </td>
+          <td>
+            June 28th 2020, 09:15:23
+          </td>
+        </tr>
+      </tbody>
+    </ForwardRef>
+  </CardBody>
+</Card>
+`;

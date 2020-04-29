@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SlotMachine should render correctly 1`] = `
+<Card
+  body={false}
+>
+  <CardBody>
+    <CardTitle>
+      Slot Machine
+    </CardTitle>
+    <ButtonGroup
+      aria-label="Basic example"
+      className="mb-2"
+      role="group"
+      toggle={false}
+      vertical={false}
+    >
+      <Button
+        active={false}
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+        variant="primary"
+      >
+        Spin
+      </Button>
+      <Button
+        active={false}
+        aria-controls="example-collapse-text"
+        aria-expanded={false}
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+        variant="secondary"
+      >
+        Show Score Sheet
+      </Button>
+      <Button
+        active={false}
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+        variant="danger"
+      >
+        Reset
+      </Button>
+    </ButtonGroup>
+    <div>
+      <h3>
+        Current Money: 
+        20
+      </h3>
+    </div>
+    <SlotMachineHistory
+      spins={
+        Array [
+          SlotMachineSpin {
+            "date": 2020-06-28T07:15:23.000Z,
+            "id": undefined,
+            "result": "apple apple banana",
+            "reward": 20,
+            "userId": 1,
+          },
+          SlotMachineSpin {
+            "date": 2020-06-28T07:15:23.000Z,
+            "id": undefined,
+            "result": "cherry cherry cherry",
+            "reward": 50,
+            "userId": 1,
+          },
+        ]
+      }
+    />
+    <hr />
+    <Collapse
+      appear={false}
+      dimension="height"
+      getDimensionValue={[Function]}
+      in={false}
+      mountOnEnter={false}
+      timeout={300}
+      unmountOnExit={false}
+    >
+      <div>
+        <SlotMachineScoreSheet
+          rewardRequirements={Array []}
+        />
+      </div>
+    </Collapse>
+  </CardBody>
+</Card>
+`;

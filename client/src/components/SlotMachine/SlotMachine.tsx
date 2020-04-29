@@ -13,8 +13,8 @@ import ServerResponse from "../../models/ServerResponse";
 
 const SlotMachine = () => {
   const [spinHistory, setSpinHistory] = React.useState<SlotMachineSpin[]>([
-    new SlotMachineSpin(new Date(), "apple apple banana", 1, 20),
-    new SlotMachineSpin(new Date(), "cherry cherry cherry", 1, 50),
+    new SlotMachineSpin(new Date(2020, 5, 28, 9, 15, 23), "apple apple banana", 1, 20),
+    new SlotMachineSpin(new Date(2020, 5, 28, 9, 15, 23), "cherry cherry cherry", 1, 50),
   ]);
 
   const [isScoreSheetShown, setScoreSheetShown] = React.useState(false);

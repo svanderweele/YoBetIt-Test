@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CountryList should render correctly 1`] = `
+<Card
+  body={false}
+>
+  <CardBody>
+    <CardTitle>
+      Country List
+    </CardTitle>
+    <CountryListFilter
+      onFilterExactMatch={[Function]}
+      onFilterNameChanged={[Function]}
+    />
+    <ForwardRef
+      bordered={true}
+    >
+      <thead>
+        <tr>
+          <th>
+            Id
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Flag
+          </th>
+          <th>
+            Active Corona Cases
+          </th>
+        </tr>
+      </thead>
+      <tbody />
+    </ForwardRef>
+  </CardBody>
+</Card>
+`;

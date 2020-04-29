@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CountryList should render correctly 1`] = `
+<InputGroup
+  className="mb-2"
+>
+  <InputGroupPrepend>
+    <InputGroupText
+      id="country-name"
+    >
+      Country Name
+    </InputGroupText>
+  </InputGroupPrepend>
+  <FormControl
+    aria-describedby="country-name"
+    aria-label="Country Name"
+    onChange={[Function]}
+    placeholder="Malta, Sweden"
+  />
+  <InputGroupAppend>
+    <InputGroupText
+      id="country-name"
+    >
+      Exact match?
+    </InputGroupText>
+    <InputGroupCheckbox
+      aria-label="exact-match-country-name"
+      onChange={[Function]}
+    />
+  </InputGroupAppend>
+</InputGroup>
+`;
