@@ -27,9 +27,13 @@ class App {
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
-      logger.info(`------------ Server started on port ${this.port} ------------`);
-    });
+    if (process.env.NODE_ENV !== "test") {
+      this.app.listen(this.port, () => {
+        logger.info(
+          `------------ Server started on port ${this.port} ------------`
+        );
+      });
+    }
   }
 }
 

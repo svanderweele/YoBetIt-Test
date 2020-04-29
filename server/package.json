@@ -5,7 +5,7 @@
   "main": "dist/server/src/app.js",
   "scripts": {
     "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "ts-node ./src/server.ts"
   },
   "repository": {
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/svanderweele/YoBetIt-Test#readme",
   "dependencies": {
     "@types/cors": "^2.8.6",
+    "@types/jest": "^25.2.1",
     "@types/mysql": "^2.15.10",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
@@ -32,7 +33,26 @@
   "devDependencies": {
     "@types/express": "^4.17.6",
     "@types/node": "^13.13.4",
+    "@types/supertest": "^2.0.8",
+    "jest": "^25.5.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^25.4.0",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    }
   }
 }
