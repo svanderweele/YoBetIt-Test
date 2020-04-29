@@ -1,4 +1,4 @@
-class Country {
+export class Country {
   id: number;
   flag: string;
   name: string;
@@ -16,4 +16,8 @@ class Country {
   }
 }
 
-export {Country};
+export interface GetAllCountriesQuery {
+  countryNames?: string;
+  fields?: string;
+  isExactNameMatch?: string;
+}

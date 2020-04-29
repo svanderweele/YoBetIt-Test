@@ -39,9 +39,10 @@ class SlotMachineRewardRequirement {
   pattern: SlotMachinePatternTypeEnum[];
   patternString?: string;
   reward: number;
-  constructor(pattern: SlotMachinePatternTypeEnum[], reward: number) {
+  constructor(pattern: SlotMachinePatternTypeEnum[], reward: number, id?:number) {
     this.pattern = pattern;
     this.reward = reward;
+    this.id = id;
   }
 }
 
