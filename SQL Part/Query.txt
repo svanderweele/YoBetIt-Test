@@ -1,0 +1,4 @@
+SELECT * FROM people 
+INNER JOIN people_favourite_games_pivot as fav_games ON people.id = fav_games.person_id
+INNER JOIN games ON games.id = fav_games.game_id
+WHERE games.game_type_id = 1 GROUP BY people.email
