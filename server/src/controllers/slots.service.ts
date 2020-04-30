@@ -42,7 +42,6 @@ class SlotService implements ISlotService {
           this.slotDal
             .getRewardRequirements()
             .then((requirements: SlotMachineRewardRequirement[]) => {
-
               const reelOptions = [
                 [3, 4, 1, 4, 2, 2, 4, 4],
                 [4, 1, 4, 4, 3, 1, 2, 4],
@@ -126,12 +125,14 @@ class SlotService implements ISlotService {
                     reward
                   );
 
-                  Database.query(
-                    `UPDATE users SET money=money+${reward}-${playCost}`
-                  ).then(() => {
-                   this.slotDal.addSpin(spin).then((rows: any) => {
-                      resolve(spin);
-                    }).catch(error => console.log(error));
+                  user.money += reward - playCost;
+                  this.userService.updateUser(user).then(() => {
+                    this.slotDal
+                      .addSpin(spin)
+                      .then((rows: any) => {
+                        resolve(spin);
+                      })
+                      .catch((error) => console.log(error));
                   });
                 });
             });
@@ -145,8 +146,11 @@ class SlotService implements ISlotService {
   resetSlots = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       try {
-        Database.query(`UPDATE users set money=20`).then(() => {
-          return Database.query(`DELETE from spins`).then(resolve);
+        this.userService.getUsers().then((users) => {
+          users[0].money = 20;
+          this.userService.updateUser(users[0]).then((user) => {
+            this.slotDal.resetSlotMachine().then((value) => resolve(true));
+          });
         });
       } catch (error) {
         reject(error);
@@ -156,7 +160,8 @@ class SlotService implements ISlotService {
 
   getHistory = (): Promise<SlotMachineSpin[]> => {
     return new Promise((resolve, reject) => {
-      this.slotDal.getSpinHistory()
+      this.slotDal
+        .getSpinHistory()
         .then((spins: SlotMachineSpin[]) => {
           resolve(spins);
         })

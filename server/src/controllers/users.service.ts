@@ -4,6 +4,7 @@ import { IUserDAL } from "./users.dal";
 
 export interface IUserService {
   getUsers: () => Promise<User[]>;
+  updateUser: (user: User) => Promise<User>;
 }
 
 class UserService implements IUserService {
@@ -13,6 +14,7 @@ class UserService implements IUserService {
   }
 
   getUsers = (): Promise<User[]> => this.userDal.getUsers();
+  updateUser = (user: User): Promise<User> => this.userDal.updateUser(user);
 }
 
 export { UserService };

@@ -15,6 +15,7 @@ export interface ISlotDal {
   getRewardRequirements: () => Promise<SlotMachineRewardRequirement[]>;
   getSlotTypes: () => Promise<SlotMachinePatternType[]>;
   addSpin: (spin: SlotMachineSpin) => Promise<SlotMachineSpin>;
+  resetSlotMachine: () => Promise<boolean>;
 }
 
 class SlotDalSql implements ISlotDal {
@@ -54,6 +55,13 @@ class SlotDalSql implements ISlotDal {
       }")`
     );
   };
+  resetSlotMachine = (): Promise<boolean> => {
+    return new Promise<boolean>((resolve, reject) => {
+      Database.query(`UPDATE users set money=20 AND DELETE from spins`)
+        .then((rows) => resolve(true))
+        .catch((error) => reject(error));
+    });
+  };
 }
 
 class SlotDalMongoDb implements ISlotDal {
@@ -83,7 +91,7 @@ class SlotDalMongoDb implements ISlotDal {
             date: spin.date,
             result: spin.result,
             reward: spin.reward,
-            id: history.length+1,
+            id: history.length + 1,
           });
           resolve(spin);
         });
@@ -150,6 +158,16 @@ class SlotDalMongoDb implements ISlotDal {
       } catch (error) {
         reject(error);
       }
+    });
+  };
+
+  resetSlotMachine = (): Promise<boolean> => {
+    return new Promise<boolean>((resolve, reject) => {
+      this.db
+        .collection("spins")
+        .deleteMany({})
+        .then((rows) => resolve(true))
+        .catch((error) => reject(error));
     });
   };
 }
