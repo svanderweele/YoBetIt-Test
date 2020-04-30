@@ -1,7 +1,7 @@
 import request from "supertest";
 import {app} from "../app";
 import supertest from "supertest";
-import { User } from "../../../client/src/models/User";
+import { User } from "../models/User";
 
 const callerApp = app.app;
 

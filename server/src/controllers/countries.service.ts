@@ -1,10 +1,10 @@
-import Database from "../../src/database";
-import { logger } from "../../src/utilities/winston";
-import ServerResponse from "../../../client/src/models/ServerResponse";
+import Database from "../database";
+import { logger } from "../utilities/winston";
+import ServerResponse from "../models/ServerResponse";
 import {
   Country,
   GetAllCountriesQuery,
-} from "../../../client/src/models/Country";
+} from "../models/Country";
 import axios from "axios";
 
 class CountryService {

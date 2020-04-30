@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import ServerResponse from "../../../client/src/models/ServerResponse";
-import { Country, GetAllCountriesQuery } from "../../../client/src/models/Country";
-import { logger } from "../../src/utilities/winston";
+import ServerResponse from "../models/ServerResponse";
+import { Country, GetAllCountriesQuery } from "../models/Country";
+import { logger } from "../utilities/winston";
 import countryService from "./countries.service";
 
 

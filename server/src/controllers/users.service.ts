@@ -1,16 +1,18 @@
-import Database from "../../src/database";
-import { User } from "../../../client/src/models/User";
+import Database from "../database";
+import { User } from "../models/User";
+import { IUserDAL } from "./users.dal";
 
-class UserService {
-  static getUser = (): Promise<User> => {
-    return new Promise<User>((resolve, reject) => {
-      try {
-        Database.query(`SELECT * FROM users`).then(resolve);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  };
+export interface IUserService {
+  getUsers: () => Promise<User[]>;
 }
 
-export default UserService;
+class UserService implements IUserService {
+  private userDal: IUserDAL;
+  constructor(dal: IUserDAL) {
+    this.userDal = dal;
+  }
+
+  getUsers = (): Promise<User[]> => this.userDal.getUsers();
+}
+
+export { UserService };

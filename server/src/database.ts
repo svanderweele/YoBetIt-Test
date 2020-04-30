@@ -10,11 +10,11 @@ const connection = mysql.createConnection({
 });
 
 class Database {
-  static query = (query: string) => {
-    return new Promise((resolve, reject) => {
+  static query = <T>(query: string): Promise<T> => {
+    return new Promise((resolve: any, reject) => {
       connection.query(
         query,
-        (error: MysqlError, results?: any, fields?: FieldInfo[]) => {
+        (error: MysqlError, results?: T, fields?: FieldInfo[]) => {
           if (error) {
             logger.error(error);
             return;

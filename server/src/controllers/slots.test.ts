@@ -1,7 +1,7 @@
 import request from "supertest";
 import {app} from "../app";
 import supertest from "supertest";
-import { SlotMachineSpin, SlotMachineRewardRequirement } from "../../../client/src/models/SlotMachine";
+import { SlotMachineSpin, SlotMachineRewardRequirement } from "../models/SlotMachine";
 
 const callerApp = app.app;
 

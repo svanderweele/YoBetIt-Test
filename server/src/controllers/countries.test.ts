@@ -1,5 +1,5 @@
-import ServerResponse from "../../../client/src/models/ServerResponse";
-import { Country } from "../../../client/src/models/Country";
+import ServerResponse from "../models/ServerResponse";
+import { Country } from "../models/Country";
 
 import request from "supertest";
 import supertest from "supertest";

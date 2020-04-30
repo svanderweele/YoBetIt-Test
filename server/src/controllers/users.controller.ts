@@ -1,13 +1,16 @@
 import express, { Request, Response } from "express";
-import ServerResponse from "../../../client/src/models/ServerResponse";
-import { logger } from "../../src/utilities/winston";
-import userService from "./users.service";
+import ServerResponse from "../models/ServerResponse";
+import { logger } from "../utilities/winston";
+import { UserService, IUserService } from "./users.service";
+import { User } from "../models/User";
+import { UserDalSql, UserDalMongoDb } from "./users.dal";
 
 class UsersController {
   public path = "/api/users";
   public router = express.Router();
-
+  private userService: IUserService;
   constructor() {
+    this.userService = new UserService(new UserDalMongoDb());
     this.intializeRoutes();
   }
 
@@ -16,10 +19,10 @@ class UsersController {
   }
 
   getUser = async (request: Request, response: Response) => {
-    userService
-      .getUser()
-      .then((user) => {
-        response.send(new ServerResponse(true, "User retrieved", user));
+    this.userService
+      .getUsers()
+      .then((users: User[]) => {
+        response.send(new ServerResponse(true, "User retrieved", users[0]));
       })
       .catch((error) => {
         response.send(new ServerResponse(true, "Get user failed", { error }));

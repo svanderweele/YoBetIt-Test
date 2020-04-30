@@ -2,13 +2,13 @@
   "name": "yobetitproject",
   "version": "1.0.0",
   "description": "An api for YoBetIt",
-  "main": "dist/server/src/app.js",
+  "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
-    "prestart": "npm run build",
-    "start": "node .",
+    "start": "node ./dist/app.js",
     "test": "jest",
-    "dev": "ts-node ./src/server.ts"
+    "dev": "ts-node ./src/app.ts",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,13 @@
   "dependencies": {
     "@types/cors": "^2.8.6",
     "@types/jest": "^25.2.1",
+    "@types/mongodb": "^3.5.14",
     "@types/mysql": "^2.15.10",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "moment": "^2.24.0",
+    "mongodb": "^3.5.7",
     "mysql": "^2.18.1",
     "ts-node": "^8.9.1",
     "winston": "^3.2.1"
