@@ -2,9 +2,11 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { countryReducer } from "../reducers/countries";
 import thunk, { ThunkMiddleware } from "redux-thunk";
 import { AppActions } from "../types/actions";
+import { slotReducer } from "../reducers/slots";
 
 export const rootReducer = combineReducers({
   countries: countryReducer,
+  slots: slotReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

@@ -36,7 +36,7 @@ const retrieveCountries = (query: GetAllCountriesQuery): Promise<Country[]> => {
         )
         .join("");
 
-      fetch(`${process.env.REACT_APP_HOST}/api/countries?${urlQuery}`)
+      fetch(`https://stark-sea-70808.herokuapp.com/api/countries?${urlQuery}`)
         .then((res) => res.json())
         .then((response: ServerResponse) => {
           let countries = response.data.countries as Country[];
