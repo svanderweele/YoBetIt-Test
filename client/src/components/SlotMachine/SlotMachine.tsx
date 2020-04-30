@@ -12,7 +12,7 @@ import Swal, { SweetAlertResult } from "sweetalert2";
 import ServerResponse from "../../models/ServerResponse";
 
 import { ThunkDispatch } from "redux-thunk";
-import { AppActions } from "../../types/actions";
+import { AppActions, SlotActionTypes } from "../../types/actions";
 import { bindActionCreators } from "redux";
 import { startGetCountries } from "../../actions/countries";
 import { AppState } from "../../store/configureStore";
@@ -23,39 +23,41 @@ import {
   startResetSlots,
   startGetUser,
   startGetRewardRequirements,
+  getUser,
 } from "../../actions/slots";
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch, shallowEqual } from "react-redux";
 
 interface SlotMachineProps {
 }
 type Props = SlotMachineProps & LinkStateProps & LinkDispatchProps;
 
 const SlotMachine = (props: Props) => {
-  const [spinHistory, setSpinHistory] = React.useState<SlotMachineSpin[]>([
-    new SlotMachineSpin(
-      new Date(2020, 5, 28, 9, 15, 23),
-      "apple apple banana",
-      1,
-      20
-    ),
-    new SlotMachineSpin(
-      new Date(2020, 5, 28, 9, 15, 23),
-      "cherry cherry cherry",
-      1,
-      50
-    ),
-  ]);
+
+  // const [spinHistory, setSpinHistory] = React.useState<SlotMachineSpin[]>([
+  //   new SlotMachineSpin(
+  //     new Date(2020, 5, 28, 9, 15, 23),
+  //     "apple apple banana",
+  //     1,
+  //     20
+  //   ),
+  //   new SlotMachineSpin(
+  //     new Date(2020, 5, 28, 9, 15, 23),
+  //     "cherry cherry cherry",
+  //     1,
+  //     50
+  //   ),
+  // ]);
 
   const [isScoreSheetShown, setScoreSheetShown] = React.useState(false);
-  const [userData, setUserData] = React.useState<User>({
-    id: 0,
-    name: "Simon van der Weele",
-    money: 20,
-  });
+  // const [userData, setUserData] = React.useState<User>({
+  //   id: 0,
+  //   name: "Simon van der Weele",
+  //   money: 20,
+  // });
 
-  const [rewardRequirements, setRewardRequirements] = React.useState<
-    SlotMachineRewardRequirement[]
-  >([]);
+  // const [rewardRequirements, setRewardRequirements] = React.useState<
+  //   SlotMachineRewardRequirement[]
+  // >([]);
 
   const spin = () => {
     // fetch(process.env.REACT_APP_HOST + "/api/slots/roll")
@@ -80,11 +82,11 @@ const SlotMachine = (props: Props) => {
   };
 
   const getRewardRequirements = () => {
-    fetch(`https://stark-sea-70808.herokuapp.com/api/slots/score-sheet`)
-      .then((res) => res.json())
-      .then((res: ServerResponse) => {
-        setRewardRequirements(res.data);
-      });
+    // fetch(`https://stark-sea-70808.herokuapp.com/api/slots/score-sheet`)
+    //   .then((res) => res.json())
+    //   .then((res: ServerResponse) => {
+    //     setRewardRequirements(res.data);
+    //   });
     props.getRewardRequirements();
   };
 
@@ -104,7 +106,6 @@ const SlotMachine = (props: Props) => {
     //     setSpinHistory(res.data);
     //   });
     props.getSpinHistory();
-
   };
 
   React.useEffect(() => {
@@ -112,6 +113,16 @@ const SlotMachine = (props: Props) => {
     getUserData();
     getRewardRequirements();
   }, []);
+
+  React.useEffect(() => {
+    getSpinHistory();
+    getUserData();
+  }, [props.lastSpin]);
+
+
+  React.useEffect(() => {
+    getUserData();
+  }, [props.spinHistory]);
 
   const reset = () => {
     Swal.fire({
@@ -121,17 +132,7 @@ const SlotMachine = (props: Props) => {
       background: "danger",
     }).then((result: SweetAlertResult) => {
       if (result.value) {
-        fetch(`${process.env.REACT_APP_HOST}/api/slots/reset`)
-          .then((res) => res.json())
-          .then((res: ServerResponse) => {
-            if (res.success) {
-              toastr.success("Reset successful", "Successfully reset slots!");
-              getSpinHistory();
-              getUserData();
-            } else {
-              toastr.success("Reset error", res.data.error);
-            }
-          });
+        props.startResetSlots();
       }
     });
   };
@@ -157,13 +158,15 @@ const SlotMachine = (props: Props) => {
           </Button>
         </ButtonGroup>
         <div>
-          <h3>Current Money: {userData.money}</h3>
+          <h3>Current Money: {props.user?.money}</h3>
         </div>
-        <SlotMachineHistory spins={spinHistory} />
+        <SlotMachineHistory spins={props.spinHistory} />
         <hr />
         <Collapse in={isScoreSheetShown}>
           <div>
-            <SlotMachineScoreSheet rewardRequirements={props.slotState.rewardRequirements} />
+            <SlotMachineScoreSheet
+              rewardRequirements={props.rewardRequirements}
+            />
           </div>
         </Collapse>
       </Card.Body>
@@ -172,7 +175,10 @@ const SlotMachine = (props: Props) => {
 };
 
 interface LinkStateProps {
-  slotState: SlotsState;
+  lastSpin?: SlotMachineSpin;
+  rewardRequirements: SlotMachineRewardRequirement[];
+  spinHistory: SlotMachineSpin[];
+  user?: User;
 }
 
 interface LinkDispatchProps {
@@ -184,7 +190,10 @@ interface LinkDispatchProps {
 }
 
 const mapStateToProps = (state: AppState, props: any): LinkStateProps => ({
-  slotState: state.slots,
+  lastSpin: state.slots.lastSpin,
+  rewardRequirements: state.slots.rewardRequirements,
+  spinHistory: state.slots.spinHistory,
+  user: state.slots.user,
 });
 
 const mapDispatchToProps = (

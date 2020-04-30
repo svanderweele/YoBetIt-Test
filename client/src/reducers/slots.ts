@@ -9,6 +9,7 @@ import {
   SpinSlotsAction,
   GET_REWARD_REQUIREMENTS,
   GetRewardRequirementsAction,
+  RESET_SLOTS,
 } from "../types/actions";
 import {
   SlotMachineSpin,
@@ -37,20 +38,24 @@ export const slotReducer = (
   switch (action.type) {
     case SPIN_SLOTS: {
       let myAction = <SpinSlotsAction>action;
-      state.lastSpin = myAction.payload;
+      return {...state, lastSpin: myAction.payload};
     }
     case GET_USER: {
       let myAction = <GetUserAction>action;
-      state.user = myAction.payload;
+      return {...state, user: myAction.payload};
     }
 
     case GET_SPIN_HISTORY: {
       let myAction = <GetSpinHistoryAction>action;
-      state.spinHistory = myAction.payload;
+      return {...state, spinHistory: myAction.payload};
     }
     case GET_REWARD_REQUIREMENTS: {
       let myAction = <GetRewardRequirementsAction>action;
-      state.rewardRequirements = myAction.payload;
+      return {...state, rewardRequirements: myAction.payload};
+    }
+
+    case RESET_SLOTS: {
+      return {...state, spinHistory: []}
     }
 
     default:

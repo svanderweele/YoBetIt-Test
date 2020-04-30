@@ -10,8 +10,13 @@ import {
 import { Dispatch } from "react";
 import { AppState } from "../store/configureStore";
 import ServerResponse from "../models/ServerResponse";
-import { SlotMachineSpin, SlotMachineRewardRequirement } from "../models/SlotMachine";
+import {
+  SlotMachineSpin,
+  SlotMachineRewardRequirement,
+} from "../models/SlotMachine";
 import { User } from "../models/User";
+
+const hostUrl = "http://localhost:5000";
 
 export const spinSlots = (spin: SlotMachineSpin): AppActions => ({
   type: SPIN_SLOTS,
@@ -20,14 +25,12 @@ export const spinSlots = (spin: SlotMachineSpin): AppActions => ({
 
 export const startSpin = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    fetch(`https://stark-sea-70808.herokuapp.com/api/slots/roll`)
+    fetch(`${hostUrl}/api/slots/roll`)
       .then((res) => res.json())
       .then((res: ServerResponse) => {
         if (res.success) {
           let spin: SlotMachineSpin = res.data;
-          if (spin.reward > 0) {
-            dispatch(spinSlots(spin));
-          }
+          dispatch(spinSlots(spin));
         }
       });
   };
@@ -40,7 +43,7 @@ export const getSpinHistory = (spinHistory: SlotMachineSpin[]): AppActions => ({
 
 export const startGetSpinHistory = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    fetch(`https://stark-sea-70808.herokuapp.com/api/slots/spin-history`)
+    fetch(`${hostUrl}/api/slots/spin-history`)
       .then((res) => res.json())
       .then((res: ServerResponse) => {
         dispatch(getSpinHistory(res.data));
@@ -48,14 +51,16 @@ export const startGetSpinHistory = () => {
   };
 };
 
-export const getRewardRequirements = (rewardRequirements: SlotMachineRewardRequirement[]): AppActions => ({
+export const getRewardRequirements = (
+  rewardRequirements: SlotMachineRewardRequirement[]
+): AppActions => ({
   type: GET_REWARD_REQUIREMENTS,
   payload: rewardRequirements,
 });
 
 export const startGetRewardRequirements = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    fetch(`https://stark-sea-70808.herokuapp.com/api/slots/score-sheet`)
+    fetch(`${hostUrl}/api/slots/score-sheet`)
       .then((res) => res.json())
       .then((res: ServerResponse) => {
         dispatch(getRewardRequirements(res.data));
@@ -70,10 +75,10 @@ export const getUser = (user: User): AppActions => ({
 
 export const startGetUser = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    fetch(`https://stark-sea-70808.herokuapp.com/api/users/`)
+    fetch(`${hostUrl}/api/users/`)
       .then((res) => res.json())
       .then((res: ServerResponse) => {
-        getUser(res.data[0]);
+        dispatch(getUser(res.data));
       });
   };
 };
@@ -84,11 +89,13 @@ export const resetSlots = (): AppActions => ({
 
 export const startResetSlots = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    fetch(`https://stark-sea-70808.herokuapp.com/api/slots/reset`)
+    fetch(`${hostUrl}/api/slots/reset`)
       .then((res) => res.json())
       .then((res: ServerResponse) => {
         if (res.success == false) {
           console.log("Failed to reset slots " + res.data);
+        }else{
+          dispatch(resetSlots());
         }
       });
   };
